@@ -685,7 +685,7 @@ function deleteRow(section, index) {
 async function autoUpload() {
   if (autoSyncEnabled && syncBinId) {
     try {
-      await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${syncBinId}`, {
+      await fetch(`https://extendsclass.com/api/json-storage/bin/${syncBinId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(db)
@@ -698,7 +698,7 @@ async function autoUpload() {
 
 async function generateBinId() {
   try {
-    const res = await fetch("https://jsonbin-zeta.vercel.app/api/bins", {
+    const res = await fetch("https://extendsclass.com/api/json-storage/bin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(db)
@@ -726,7 +726,7 @@ async function uploadToCloud() {
   localStorage.setItem("syncBinId", syncBinId);
   
   try {
-    const res = await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${syncBinId}`, {
+    const res = await fetch(`https://extendsclass.com/api/json-storage/bin/${syncBinId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(db)
@@ -749,7 +749,7 @@ async function downloadFromCloud() {
   localStorage.setItem("syncBinId", syncBinId);
   
   try {
-    const res = await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${syncBinId}`);
+    const res = await fetch(`https://extendsclass.com/api/json-storage/bin/${syncBinId}`);
     if (!res.ok) throw new Error("Could not download data");
     const cloudData = await res.json();
     
@@ -817,7 +817,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   // Auto-download if enabled
   if (autoSyncEnabled && syncBinId) {
     try {
-      const res = await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${syncBinId}`);
+      const res = await fetch(`https://extendsclass.com/api/json-storage/bin/${syncBinId}`);
       if (res.ok) {
         const cloudData = await res.json();
         if (cloudData.purchases && cloudData.spendings && cloudData.savings) {
