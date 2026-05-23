@@ -64,6 +64,13 @@
           </svg>
           Losses
         </button>
+        
+        <button class="nav-item" onclick="openPage('sync', this)" id="nav_sync">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 6H16" />
+          </svg>
+          Cloud Sync
+        </button>
       </nav>
       
      
@@ -468,6 +475,45 @@
                   <!-- Dynamic content -->
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- PAGE: SYNC -->
+      <section id="sync" class="page">
+        <div class="split-layout" style="grid-template-columns: 1fr;">
+          <div class="form-card" style="max-width: 650px; margin: 0 auto; position: static;">
+            <h3>Multi-Device Cloud Sync</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6;">
+              Sync your database across devices (laptop, phone) using an anonymous cloud bin. 
+              Generate a Sync Key (Bin ID) on your primary device, click Upload, and then download it on your other devices using the same key.
+            </p>
+            
+            <div class="form-group">
+              <label for="sync_bin_id">Sync Key / Bin ID</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="sync_bin_id" class="form-control" placeholder="e.g. vN5WhmHnVP" autocomplete="off" style="font-family: monospace;">
+                <button type="button" class="btn btn-secondary" onclick="generateBinId()" style="flex: 0 0 auto;">Generate New</button>
+              </div>
+            </div>
+            
+            <div style="display: flex; gap: 16px; margin: 24px 0 16px 0;">
+              <button type="button" class="btn btn-primary" onclick="uploadToCloud()" style="flex: 1;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 18px; height: 18px; margin-right: 6px; display: inline-block; vertical-align: middle;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                Upload to Cloud
+              </button>
+              <button type="button" class="btn btn-success" onclick="downloadFromCloud()" style="flex: 1;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 18px; height: 18px; margin-right: 6px; display: inline-block; vertical-align: middle;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                Download from Cloud
+              </button>
+            </div>
+            
+            <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+              <input type="checkbox" id="sync_auto" style="width: 18px; height: 18px; cursor: pointer; flex-shrink: 0;" onchange="toggleAutoSync()">
+              <label for="sync_auto" style="margin-bottom: 0; cursor: pointer; font-size: 0.9rem; font-weight: 500; color: var(--text-primary);">
+                Enable Auto-Sync (Uploads on changes, downloads on load)
+              </label>
             </div>
           </div>
         </div>

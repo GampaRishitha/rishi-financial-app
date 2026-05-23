@@ -3,6 +3,10 @@ let db = null;
 let savingChart = null;
 let spendingChart = null;
 
+// Sync config state
+let syncBinId = localStorage.getItem("syncBinId") || "";
+let autoSyncEnabled = localStorage.getItem("autoSyncEnabled") === "true";
+
 // Initialize Database
 function initDB() {
   const stored = localStorage.getItem("financeDB");
@@ -57,6 +61,7 @@ function initDB() {
 // Save Database to LocalStorage
 function saveDB() {
   localStorage.setItem("financeDB", JSON.stringify(db));
+  autoUpload();
 }
 
 // Open / Navigation logic
@@ -87,7 +92,8 @@ function openPage(pageId, btnEl) {
     spendings: "Expense Tracker",
     savings: "Savings Logs & Milestones",
     investments: "Asset Investment Tracker",
-    losses: "Loss Registry"
+    losses: "Loss Registry",
+    sync: "Multi-Device Cloud Sync"
   };
   document.getElementById("currentPageTitle").textContent = titles[pageId] || "Finance Tracker";
 }
@@ -675,8 +681,113 @@ function deleteRow(section, index) {
   }
 }
 
+// Cloud Sync Integration Methods
+async function autoUpload() {
+  if (autoSyncEnabled && syncBinId) {
+    try {
+      await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${syncBinId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(db)
+      });
+    } catch (err) {
+      console.error("Auto-upload failed", err);
+    }
+  }
+}
+
+async function generateBinId() {
+  try {
+    const res = await fetch("https://jsonbin-zeta.vercel.app/api/bins", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(db)
+    });
+    if (!res.ok) throw new Error("Could not create cloud bin");
+    const data = await res.json();
+    syncBinId = data.id;
+    localStorage.setItem("syncBinId", syncBinId);
+    document.getElementById("sync_bin_id").value = syncBinId;
+    showToast(`Generated Sync Key: ${syncBinId}. Copy this key!`, "success");
+    autoUpload();
+  } catch (err) {
+    showToast("Failed to generate Sync Key.", "danger");
+    console.error(err);
+  }
+}
+
+async function uploadToCloud() {
+  const binInput = document.getElementById("sync_bin_id").value.trim();
+  if (!binInput) {
+    showToast("Please enter or generate a Sync Key first.", "danger");
+    return;
+  }
+  syncBinId = binInput;
+  localStorage.setItem("syncBinId", syncBinId);
+  
+  try {
+    const res = await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${syncBinId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(db)
+    });
+    if (!res.ok) throw new Error("Could not upload data");
+    showToast("Successfully uploaded database to cloud!", "success");
+  } catch (err) {
+    showToast("Failed to upload data to cloud.", "danger");
+    console.error(err);
+  }
+}
+
+async function downloadFromCloud() {
+  const binInput = document.getElementById("sync_bin_id").value.trim();
+  if (!binInput) {
+    showToast("Please enter or generate a Sync Key first.", "danger");
+    return;
+  }
+  syncBinId = binInput;
+  localStorage.setItem("syncBinId", syncBinId);
+  
+  try {
+    const res = await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${syncBinId}`);
+    if (!res.ok) throw new Error("Could not download data");
+    const cloudData = await res.json();
+    
+    if (cloudData.purchases && cloudData.spendings && cloudData.savings) {
+      db = cloudData;
+      localStorage.setItem("financeDB", JSON.stringify(db));
+      renderTables();
+      updateDashboard();
+      showToast("Successfully downloaded database from cloud!", "success");
+    } else {
+      throw new Error("Invalid database format");
+    }
+  } catch (err) {
+    showToast("Failed to download data from cloud. Is the key correct?", "danger");
+    console.error(err);
+  }
+}
+
+function toggleAutoSync() {
+  autoSyncEnabled = document.getElementById("sync_auto").checked;
+  localStorage.setItem("autoSyncEnabled", autoSyncEnabled);
+  if (autoSyncEnabled) {
+    const binInput = document.getElementById("sync_bin_id").value.trim();
+    if (binInput) {
+      syncBinId = binInput;
+      localStorage.setItem("syncBinId", syncBinId);
+      autoUpload();
+      showToast("Auto-Sync enabled.", "success");
+    } else {
+      showToast("Auto-Sync requires a Sync Key.", "info");
+    }
+  } else {
+    showToast("Auto-Sync disabled.", "info");
+  }
+}
+
 // Startup Initialization
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   // Format current date badge
   const badge = document.getElementById("currentDateBadge");
   if (badge) {
@@ -698,6 +809,27 @@ window.addEventListener("DOMContentLoaded", () => {
   });
   
   initDB();
+  
+  // Load sync config
+  document.getElementById("sync_bin_id").value = syncBinId;
+  document.getElementById("sync_auto").checked = autoSyncEnabled;
+  
+  // Auto-download if enabled
+  if (autoSyncEnabled && syncBinId) {
+    try {
+      const res = await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${syncBinId}`);
+      if (res.ok) {
+        const cloudData = await res.json();
+        if (cloudData.purchases && cloudData.spendings && cloudData.savings) {
+          db = cloudData;
+          localStorage.setItem("financeDB", JSON.stringify(db));
+        }
+      }
+    } catch (err) {
+      console.warn("Auto-sync download failed", err);
+    }
+  }
+  
   renderTables();
   updateDashboard();
 });
