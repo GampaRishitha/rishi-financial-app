@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rishitha's Finance - Personal Wealth Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js for beautiful analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  
+  <div class="container">
+    
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <!-- Brand logo icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M12 16v1M10 21h4a2 2 0 002-2v-3a2 2 0 00-2-2h-4a2 2 0 00-2 2v3a2 2 0 002 2z" />
+        </svg>
+        <h2>Rishitha's Finance</h2>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <button class="nav-item active" onclick="openPage('home', this)" id="nav_home">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Dashboard
+        </button>
+        
+        <button class="nav-item" onclick="openPage('purchases', this)" id="nav_purchases">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          </svg>
+          Purchases
+        </button>
+        
+        <button class="nav-item" onclick="openPage('spendings', this)" id="nav_spendings">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+          </svg>
+          Spendings
+        </button>
+        
+        <button class="nav-item" onclick="openPage('savings', this)" id="nav_savings">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M12 16v1M10 21h4a2 2 0 002-2v-3a2 2 0 00-2-2h-4a2 2 0 00-2 2v3a2 2 0 002 2z" />
+          </svg>
+          Savings
+        </button>
+        
+        <button class="nav-item" onclick="openPage('investments', this)" id="nav_investments">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-9 9-4-4-6 6" />
+          </svg>
+          Investments
+        </button>
+        
+        <button class="nav-item" onclick="openPage('losses', this)" id="nav_losses">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-9-9-4 4-6-6" />
+          </svg>
+          Losses
+        </button>
+      </nav>
+      
+     
+    </aside>
+    
+    <!-- Main Scrollable Content Panel -->
+    <main class="content">
+      
+      <!-- Top Navbar -->
+      <div class="top-navbar">
+        <h1 id="currentPageTitle">Dashboard Overview</h1>
+        <div class="navbar-meta">
+          <span class="date-badge" id="currentDateBadge">Saturday, May 23, 2026</span>
+        </div>
+      </div>
+      
+      <!-- PAGE: HOME / DASHBOARD -->
+      <section id="home" class="page active">
+        
+        <!-- Summary Cards Grid -->
+        <div class="cards-grid">
+          <div class="metric-card savings">
+            <div class="metric-header">
+              <span class="metric-title">Total Savings</span>
+              <div class="metric-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M12 16v1" />
+                </svg>
+              </div>
+            </div>
+            <div class="metric-value" id="dashboardSavingsValue">₹0</div>
+            <div class="metric-trend text-success" id="savingsOverviewTrend">Overall wealth builder</div>
+          </div>
+          
+          <div class="metric-card spendings">
+            <div class="metric-header">
+              <span class="metric-title">Total Spendings</span>
+              <div class="metric-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+              </div>
+            </div>
+            <div class="metric-value" id="dashboardSpendingsValue">₹0</div>
+            <div class="metric-trend text-warning" id="spendingsOverviewTrend">Tracked monthly expenses</div>
+          </div>
+          
+          <div class="metric-card investments">
+            <div class="metric-header">
+              <span class="metric-title">Total Investments</span>
+              <div class="metric-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-9 9-4-4-6 6" />
+                </svg>
+              </div>
+            </div>
+            <div class="metric-value" id="dashboardInvestmentsValue">₹0</div>
+            <div class="metric-trend text-info" id="investmentsOverviewTrend">Assets accumulated</div>
+          </div>
+          
+          <div class="metric-card losses">
+            <div class="metric-header">
+              <span class="metric-title">Total Losses</span>
+              <div class="metric-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+            </div>
+            <div class="metric-value" id="dashboardLossesValue">₹0</div>
+            <div class="metric-trend text-danger" id="lossesOverviewTrend">Risk & leak management</div>
+          </div>
+        </div>
+        
+        <!-- Charts Grid for Trend Graphs -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-savings)">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2" />
+              </svg>
+              Savings Performance Chart
+            </h3>
+            <div class="chart-container">
+              <canvas id="savingChartCanvas"></canvas>
+            </div>
+          </div>
+          
+          <div class="chart-card">
+            <h3>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-spendings)">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+              Monthly Spendings Trend Chart
+            </h3>
+            <div class="chart-container">
+              <canvas id="spendingChartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+        
+      </section>
+      
+      <!-- PAGE: PURCHASES -->
+      <section id="purchases" class="page">
+        <div class="split-layout">
+          <!-- Add/Edit form -->
+          <div class="form-card">
+            <h3 id="purchasesFormTitle">Add Monthly Purchase</h3>
+            <form id="purchasesForm" onsubmit="handleFormSubmit(event, 'purchases')">
+              <input type="hidden" id="purchases_edit_index" value="">
+              
+              <div class="form-group">
+                <label for="purchases_item">Item Name</label>
+                <input type="text" id="purchases_item" class="form-control" placeholder="e.g. Soap, Shampoo, Milk" required autocomplete="off">
+              </div>
+              
+              <div class="form-group">
+                <label for="purchases_price">Price (₹)</label>
+                <input type="number" id="purchases_price" class="form-control" placeholder="e.g. 150" required min="1" step="any">
+              </div>
+              
+              <div class="form-group">
+                <label for="purchases_month">Frequency / Month</label>
+                <select id="purchases_month" class="form-control" required>
+                  <option value="Every Month">Every Month</option>
+                  <option value="January">January</option>
+                  <option value="February">February</option>
+                  <option value="March">March</option>
+                  <option value="April">April</option>
+                  <option value="May">May</option>
+                  <option value="June">June</option>
+                  <option value="July">July</option>
+                  <option value="August">August</option>
+                  <option value="September">September</option>
+                  <option value="October">October</option>
+                  <option value="November">November</option>
+                  <option value="December">December</option>
+                </select>
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" id="purchasesCancelBtn" class="btn btn-secondary" onclick="resetForm('purchases')" style="display: none;">Cancel</button>
+                <button type="submit" id="purchasesSubmitBtn" class="btn btn-primary">Add Purchase</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Data Table -->
+          <div class="table-card">
+            <div class="table-header-container">
+              <h3>Monthly Non-Negotiable Items</h3>
+              <div class="badge badge-emerald" id="purchasesTotalBadge">Total: ₹0</div>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Frequency</th>
+                    <th style="width: 100px; text-align: center;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="purchasesTableBody">
+                  <!-- Dynamic content -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- PAGE: SPENDINGS -->
+      <section id="spendings" class="page">
+        <div class="split-layout">
+          <!-- Add/Edit form -->
+          <div class="form-card">
+            <h3 id="spendingsFormTitle">Record Spending</h3>
+            <form id="spendingsForm" onsubmit="handleFormSubmit(event, 'spendings')">
+              <input type="hidden" id="spendings_edit_index" value="">
+              
+              <div class="form-group">
+                <label for="spendings_amount">Amount Spent (₹)</label>
+                <input type="number" id="spendings_amount" class="form-control" placeholder="e.g. 1500" required min="1" step="any">
+              </div>
+              
+              <div class="form-group">
+                <label for="spendings_category">What (Category/Item)</label>
+                <input type="text" id="spendings_category" class="form-control" placeholder="e.g. Dinner, Uber, Wi-Fi Bill" required autocomplete="off">
+              </div>
+              
+              <div class="form-group">
+                <label for="spendings_reason">Why (Reason/Details)</label>
+                <input type="text" id="spendings_reason" class="form-control" placeholder="e.g. Friday night dinner with colleagues" required autocomplete="off">
+              </div>
+              
+              <div class="form-group">
+                <label for="spendings_date">Date</label>
+                <input type="date" id="spendings_date" class="form-control" required>
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" id="spendingsCancelBtn" class="btn btn-secondary" onclick="resetForm('spendings')" style="display: none;">Cancel</button>
+                <button type="submit" id="spendingsSubmitBtn" class="btn btn-primary">Add Spending</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Data Table -->
+          <div class="table-card">
+            <div class="table-header-container">
+              <h3>Spendings History</h3>
+              <div class="badge badge-amber" id="spendingsTotalBadge">Total: ₹0</div>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>What</th>
+                    <th>Why</th>
+                    <th>Amount</th>
+                    <th style="width: 100px; text-align: center;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="spendingsTableBody">
+                  <!-- Dynamic content -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- PAGE: SAVINGS -->
+      <section id="savings" class="page">
+        <div class="split-layout">
+          <!-- Add/Edit form -->
+          <div class="form-card">
+            <h3 id="savingsFormTitle">Record Savings</h3>
+            <form id="savingsForm" onsubmit="handleFormSubmit(event, 'savings')">
+              <input type="hidden" id="savings_edit_index" value="">
+              
+              <div class="form-group">
+                <label for="savings_amount">Amount Saved (₹)</label>
+                <input type="number" id="savings_amount" class="form-control" placeholder="e.g. 20000" required min="1" step="any">
+              </div>
+              
+              <div class="form-group">
+                <label for="savings_dropReason">Why did they drop? (If applicable)</label>
+                <input type="text" id="savings_dropReason" class="form-control" placeholder="e.g. None, or Medical emergency, Car repair" required autocomplete="off">
+              </div>
+              
+              <div class="form-group">
+                <label for="savings_goal">Annual Goals / Milestones</label>
+                <input type="text" id="savings_goal" class="form-control" placeholder="e.g. Reach ₹2L emergency fund" required autocomplete="off">
+              </div>
+              
+              <div class="form-group">
+                <label for="savings_date">Date</label>
+                <input type="date" id="savings_date" class="form-control" required>
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" id="savingsCancelBtn" class="btn btn-secondary" onclick="resetForm('savings')" style="display: none;">Cancel</button>
+                <button type="submit" id="savingsSubmitBtn" class="btn btn-primary">Add Saving</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Data Table -->
+          <div class="table-card">
+            <div class="table-header-container">
+              <h3>Savings Logs & Milestones</h3>
+              <div class="badge badge-emerald" id="savingsTotalBadge">Total: ₹0</div>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Drop Reason</th>
+                    <th>Year Goals</th>
+                    <th style="width: 100px; text-align: center;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="savingsTableBody">
+                  <!-- Dynamic content -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- PAGE: INVESTMENTS -->
+      <section id="investments" class="page">
+        <div class="split-layout">
+          <!-- Add/Edit form -->
+          <div class="form-card">
+            <h3 id="investmentsFormTitle">Log Investment</h3>
+            <form id="investmentsForm" onsubmit="handleFormSubmit(event, 'investments')">
+              <input type="hidden" id="investments_edit_index" value="">
+              
+              <div class="form-group">
+                <label for="investments_asset">What (Asset Name/Type)</label>
+                <input type="text" id="investments_asset" class="form-control" placeholder="e.g. Nifty 50 ETF, Tesla Stock, Gold" required autocomplete="off">
+              </div>
+              
+              <div class="form-group">
+                <label for="investments_amount">Bought For / Price (₹)</label>
+                <input type="number" id="investments_amount" class="form-control" placeholder="e.g. 10000" required min="1" step="any">
+              </div>
+              
+              <div class="form-group">
+                <label for="investments_date">Date Bought</label>
+                <input type="date" id="investments_date" class="form-control" required>
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" id="investmentsCancelBtn" class="btn btn-secondary" onclick="resetForm('investments')" style="display: none;">Cancel</button>
+                <button type="submit" id="investmentsSubmitBtn" class="btn btn-primary">Add Investment</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Data Table -->
+          <div class="table-card">
+            <div class="table-header-container">
+              <h3>Investments Portfolio</h3>
+              <div class="badge badge-indigo" id="investmentsTotalBadge">Total: ₹0</div>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>What (Asset)</th>
+                    <th>Amount Invested</th>
+                    <th style="width: 100px; text-align: center;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="investmentsTableBody">
+                  <!-- Dynamic content -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- PAGE: LOSSES -->
+      <section id="losses" class="page">
+        <div class="split-layout">
+          <!-- Add/Edit form -->
+          <div class="form-card">
+            <h3 id="lossesFormTitle">Record a Loss</h3>
+            <form id="lossesForm" onsubmit="handleFormSubmit(event, 'losses')">
+              <input type="hidden" id="losses_edit_index" value="">
+              
+              <div class="form-group">
+                <label for="losses_amount">Amount Lost (₹)</label>
+                <input type="number" id="losses_amount" class="form-control" placeholder="e.g. 500" required min="1" step="any">
+              </div>
+              
+              <div class="form-group">
+                <label for="losses_reason">Why (Reason / Incident)</label>
+                <input type="text" id="losses_reason" class="form-control" placeholder="e.g. Late credit card charge, Scammed online" required autocomplete="off">
+              </div>
+              
+              <div class="form-group">
+                <label for="losses_date">Date of Loss</label>
+                <input type="date" id="losses_date" class="form-control" required>
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" id="lossesCancelBtn" class="btn btn-secondary" onclick="resetForm('losses')" style="display: none;">Cancel</button>
+                <button type="submit" id="lossesSubmitBtn" class="btn btn-primary">Log Loss</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Data Table -->
+          <div class="table-card">
+            <div class="table-header-container">
+              <h3>Losses Log</h3>
+              <div class="badge badge-red" id="lossesTotalBadge">Total: ₹0</div>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Why (Reason)</th>
+                    <th>Amount</th>
+                    <th style="width: 100px; text-align: center;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="lossesTableBody">
+                  <!-- Dynamic content -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+  </div>
+  
+  <!-- Container for interactive Toast notifications -->
+  <div id="toastContainer" class="toast-container"></div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
