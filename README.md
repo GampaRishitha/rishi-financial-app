@@ -1,4 +1,4 @@
-# Apex Finance Tracker
+# My Finance Tracker
 
 A premium, responsive personal finance dashboard built with HTML5, CSS3, and JavaScript, leveraging LocalStorage for offline data persistence and Chart.js for data visualization.
 
